@@ -1,0 +1,120 @@
+<div class="analytics-container">
+  <!-- Use the shared sidebar component -->
+  <app-sidebar activeRoute="analytics"></app-sidebar>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Header -->
+    <div class="analytics-header">
+      <h1>Analytics <span class="highlight">Report</span></h1>
+      
+      <!-- Date Filter and Export Button -->
+      <div class="header-controls">
+        <div class="date-filter">
+          <select [(ngModel)]="selectedDateRange" (change)="onDateRangeChange()">
+            <option value="all">All Time</option>
+            <option value="last30days">Last 30 Days</option>
+            <option value="last7days">Last 7 Days</option>
+            <option value="today">Today</option>
+            <option value="custom">Custom Range</option>
+          </select>
+        </div>
+        
+        <button class="export-btn" (click)="exportReport()">
+          Export Report
+        </button>
+      </div>
+
+      <!-- Custom Date Range Dialog -->
+      <div class="modal-overlay" *ngIf="showDateRangeDialog">
+        <div class="date-range-dialog">
+          <div class="dialog-header">
+            <h3>Select Date Range</h3>
+            <button class="close-btn" (click)="cancelDateRangeDialog()">×</button>
+          </div>
+          
+          <div class="dialog-content">
+            <div class="date-field">
+              <label for="startDate">From:</label>
+              <div class="date-input">
+                <input type="date" id="startDate" [(ngModel)]="tempStartDate">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+            </div>
+            
+            <div class="date-field">
+              <label for="endDate">To:</label>
+              <div class="date-input">
+                <input type="date" id="endDate" [(ngModel)]="tempEndDate">
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+            </div>
+          </div>
+          
+          <div class="dialog-footer">
+            <button class="cancel-btn" (click)="cancelDateRangeDialog()">Cancel</button>
+            <button class="apply-btn" (click)="applyDateRange()">Apply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="stats-container">
+      <div class="stats-card">
+        <div class="stats-icon"><i class="fas fa-file-alt"></i></div>
+        <div class="stats-info">
+          <div class="stats-title">Total Deactivations</div>
+          <div class="stats-value">{{ totalDeactivations }}</div>
+        </div>
+      </div>
+      
+      <div class="stats-card">
+        <div class="stats-icon"><i class="fas fa-clock"></i></div>
+        <div class="stats-info">
+          <div class="stats-title">Temporary Deactivations</div>
+          <div class="stats-value">{{ temporaryDeactivations }}</div>
+        </div>
+      </div>
+      
+      <div class="stats-card">
+        <div class="stats-icon"><i class="fas fa-ban"></i></div>
+        <div class="stats-info">
+          <div class="stats-title">Permanent Deactivations</div>
+          <div class="stats-value">{{ permanentDeactivations }}</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Charts Section - Rearranged -->
+    <div class="charts-container">
+      <!-- Type and Department Charts Side by Side -->
+      <div class="chart-card medium">
+        <canvas id="typeChart"></canvas>
+      </div>
+      
+      <div class="chart-card medium">
+        <canvas id="departmentChart"></canvas>
+      </div>
+      
+      <!-- Trend Chart Below -->
+      <div class="chart-card large">
+        <canvas id="trendChart"></canvas>
+      </div>
+      
+      <!-- Application Chart -->
+      <div class="chart-card medium">
+        <canvas id="appChart"></canvas>
+      </div>
+      
+      <!-- Reason Chart -->
+      <div class="chart-card medium">
+        <canvas id="reasonChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

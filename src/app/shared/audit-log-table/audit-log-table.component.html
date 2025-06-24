@@ -1,0 +1,61 @@
+<div class="audit-log-table-container" [style.max-height]="maxHeight">
+  <table class="audit-log-table">
+    <thead>
+      <tr>
+        <th>Date / Time</th>
+        <th *ngIf="showEmployee">Employee</th>
+        <th>Application</th>
+        <th>Action type</th>
+        <th *ngIf="showDuration">Expiration Date</th>
+        <th *ngIf="showReason">Reason</th>
+        <th *ngIf="showOfficer">Performed by</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of paginatedLogs">
+        <td>{{ formatDate(log.date) }}</td>
+        <td *ngIf="showEmployee" class="employee-cell">
+          <div class="employee-info">
+            <span class="employee-name">{{ log.employee }}</span>
+            <span class="employee-id">{{ log.employeeId }}</span>
+          </div>
+        </td>
+        <td>{{ log.application }}</td>
+        <td>
+          <span [ngClass]="{'temporary': log.actionType === 'Temporary', 'permanent': log.actionType === 'Permanent', 'reactivation': log.actionType === 'Reactivation'}">
+            {{ log.actionType }}
+          </span>
+        </td>
+        <td *ngIf="showDuration">
+          <span *ngIf="log.actionType === 'Temporary'">
+            {{ getExpirationDate(log) }}
+          </span>
+          <span *ngIf="log.actionType !== 'Temporary'">
+            Not Applicable
+          </span>
+        </td>
+        <td *ngIf="showReason">{{ log.reason }}</td>
+        <td *ngIf="showOfficer">{{ log.officer }}</td>
+      </tr>
+      <tr *ngIf="logs.length === 0">
+        <td [attr.colspan]="getColspan()">No audit logs found</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="pagination" *ngIf="showPagination && totalPages > 1">
+  <button [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">Previous</button>
+  <span>Page {{ currentPage }} of {{ totalPages }}</span>
+  <button [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">Next</button>
+</div>
+
+
+
+
+
+
+
+
+
+

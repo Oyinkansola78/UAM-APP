@@ -1,0 +1,73 @@
+<div class="user-details-container">
+  <app-sidebar activeRoute="user-management"></app-sidebar>
+
+  <div class="main-content">
+    <!-- Debug information -->
+    <div style="background-color: #f8f9fa; padding: 10px; margin-bottom: 20px; border: 1px solid #ddd;">
+      <p>Debug Info:</p>
+      <p>Route ID: {{userId || 'None'}}</p>
+      <p>Loading: {{loading}}</p>
+      <p>Error: {{error || 'None'}}</p>
+      <p>User Object: {{user ? 'Loaded' : 'Not Loaded'}}</p>
+    </div>
+    
+    <!-- Loading state -->
+    <div *ngIf="loading" style="padding: 20px;">
+      <p>Loading user details for ID: {{userId}}...</p>
+    </div>
+    
+    <!-- Error state -->
+    <div *ngIf="error && !loading" style="color: red; padding: 20px;">
+      <p>Error: {{error}}</p>
+      <button (click)="goBack()" class="btn btn-primary">Back to User Management</button>
+    </div>
+    
+    <!-- User data loaded successfully -->
+    <div *ngIf="user && !loading">
+      <div class="details-header">
+        <a (click)="goBack()" class="back-button">
+          <i class="fas fa-arrow-left"></i> Back to User Management
+        </a>
+        <h1>User Details</h1>
+      </div>
+
+      <div class="profile-section">
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-left">
+              <div class="profile-initials">{{ getInitials(user.name) }}</div>
+              <h2>{{user.name}}</h2>
+              <p class="user-id">{{user.id}}</p>
+            </div>
+            
+            <div class="profile-details">
+              <div class="detail-item">
+                <h3>Email</h3>
+                <p>{{user.email}}</p>
+              </div>
+              <div class="detail-item">
+                <h3>Role</h3>
+                <p>{{user.role}}</p>
+              </div>
+              <div class="detail-item">
+                <h3>Department</h3>
+                <p>{{user.department}}</p>
+              </div>
+              <div class="detail-item">
+                <h3>Status</h3>
+                <p>{{user.status}}</p>
+              </div>
+              <div class="detail-item">
+                <h3>Last Active</h3>
+                <p>{{user.lastActive | date:'medium'}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
